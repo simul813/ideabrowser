@@ -18,6 +18,8 @@ import {
   Rocket,
   ExternalLink,
   CheckCircle2,
+  Briefcase,
+  ArrowRight,
 } from "lucide-react";
 import {
   AreaChart,
@@ -163,12 +165,22 @@ export default function IdeaDetailPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {idea.tags.map((tag) => (
-              <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
-                {tag}
-              </span>
-            ))}
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap gap-2 flex-1">
+              {idea.tags.map((tag) => (
+                <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <Link
+              href={`/idea/${idea.slug}/plan`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+            >
+              <Briefcase className="w-4 h-4" />
+              View Full Business Plan
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
 

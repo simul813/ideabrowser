@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getIdeaBySlug } from "@/lib/ideas";
-import { generateBusinessPlan } from "@/lib/businessPlan";
+import { generateBusinessPlan, BusinessPlan } from "@/lib/businessPlan";
+import { Idea } from "@/lib/types";
 import {
   ArrowLeft,
   Rocket,
@@ -23,7 +25,81 @@ import {
   ArrowRight,
   CircleDot,
   Briefcase,
+  Copy,
+  Check,
 } from "lucide-react";
+
+function formatSpecsForCopy(idea: Idea, plan: BusinessPlan): string {
+  const lines: string[] = [];
+  lines.push(`# ${idea.title} — Product Spec`);
+  lines.push("");
+  lines.push(`> ${idea.tagline}`);
+  lines.push("");
+  lines.push("## Overview");
+  lines.push(`- **Category:** ${idea.category}`);
+  lines.push(`- **Market Size:** ${idea.marketSize}`);
+  lines.push(`- **Revenue Model:** ${idea.revenueModel}`);
+  lines.push(`- **Target MRR:** ${idea.monthlyRevenueEstimate}`);
+  lines.push(`- **Difficulty:** ${idea.difficulty}`);
+  lines.push(`- **Time to MVP:** ${plan.buildPlan.totalTimeline}`);
+  lines.push(`- **Startup Cost:** ${plan.financials.totalStartupCost}`);
+  lines.push("");
+  lines.push("## Problem");
+  lines.push(idea.problem);
+  lines.push("");
+  lines.push("## Solution");
+  lines.push(idea.solution);
+  lines.push("");
+  lines.push("## Target Audience");
+  lines.push(idea.targetAudience);
+  lines.push("");
+  lines.push("## MVP Features");
+  plan.productSpecs.mvpFeatures.forEach((f) => lines.push(`- ${f}`));
+  lines.push("");
+  lines.push("## Full Product Features");
+  plan.productSpecs.coreFeatures.forEach((f) => lines.push(`- ${f}`));
+  lines.push("");
+  lines.push("## V2 Roadmap");
+  plan.productSpecs.v2Features.forEach((f) => lines.push(`- ${f}`));
+  lines.push("");
+  lines.push("## Tech Stack");
+  plan.productSpecs.techStack.forEach((t) => lines.push(`- **${t.layer}:** ${t.technology} — ${t.reason}`));
+  lines.push("");
+  lines.push("## Integrations");
+  lines.push(plan.productSpecs.integrations.join(", "));
+  lines.push("");
+  lines.push("## Platforms");
+  lines.push(plan.productSpecs.platforms.join(", "));
+  lines.push("");
+  lines.push("## Build Phases");
+  plan.buildPlan.phases.forEach((phase, i) => {
+    lines.push(`### Phase ${i + 1}: ${phase.name} (${phase.duration}, ${phase.cost})`);
+    lines.push("**Tasks:**");
+    phase.tasks.forEach((t) => lines.push(`- ${t}`));
+    lines.push("**Deliverables:**");
+    phase.deliverables.forEach((d) => lines.push(`- ${d}`));
+    lines.push("");
+  });
+  lines.push("## Team Required");
+  plan.buildPlan.teamRequired.forEach((m) => lines.push(`- **${m.role}** (${m.type}): ${m.monthlyCost}`));
+  lines.push("");
+  lines.push("## Pricing Tiers");
+  plan.financials.pricingTiers.forEach((tier) => {
+    lines.push(`### ${tier.name} — ${tier.price}`);
+    tier.features.forEach((f) => lines.push(`- ${f}`));
+  });
+  lines.push("");
+  lines.push("## Go-to-Market Strategy");
+  idea.goToMarket.forEach((g) => lines.push(`- ${g}`));
+  lines.push("");
+  lines.push("## Competitors");
+  idea.competitors.forEach((c) => lines.push(`- **${c.name}** (Funding: ${c.funding}) — Weakness: ${c.weakness}`));
+  lines.push("");
+  lines.push("## Key Risks");
+  idea.keyRisks.forEach((r) => lines.push(`- ${r}`));
+  lines.push("");
+  return lines.join("\n");
+}
 
 export default function BusinessPlanPage() {
   const params = useParams();
@@ -41,6 +117,14 @@ export default function BusinessPlanPage() {
   }
 
   const plan = generateBusinessPlan(idea);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    const text = formatSpecsForCopy(idea, plan);
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -91,6 +175,29 @@ export default function BusinessPlanPage() {
               <span className="text-indigo-200">Monthly Ops:</span>{" "}
               <strong>{plan.financials.totalMonthlyCost}</strong>
             </div>
+          </div>
+          <div className="mt-4">
+            <button
+              onClick={handleCopy}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                copied
+                  ? "bg-green-500 text-white"
+                  : "bg-white/15 hover:bg-white/25 text-white border border-white/20"
+              }`}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Copied to Clipboard
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  Copy Product Specs
+                </>
+              )}
+            </button>
+            <p className="text-xs text-indigo-200 mt-2">Copy the full spec as Markdown — paste into Claude Code, Cursor, or any AI tool to start building</p>
           </div>
         </div>
 

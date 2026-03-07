@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { ideas } from "@/lib/ideas";
 import { IdeaCard } from "@/components/IdeaCard";
 import { FilterBar } from "@/components/FilterBar";
@@ -13,6 +13,8 @@ export default function Home() {
   const [sortBy, setSortBy] = useState("upvotes");
   const [trendDirection, setTrendDirection] = useState("");
   const [competitionLevel, setCompetitionLevel] = useState("");
+  const filterRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const filteredIdeas = useMemo(() => {
     let filtered = ideas.filter((idea) => {
@@ -53,9 +55,19 @@ export default function Home() {
               <span className="text-xl font-bold text-gray-900">IdeaEngine</span>
             </div>
             <nav className="hidden sm:flex items-center gap-6 text-sm">
-              <a href="#" className="text-indigo-600 font-medium">Browse Ideas</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 transition-colors">Top Ideas</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 transition-colors">Categories</a>
+              <button onClick={() => {
+                setSearch(""); setCategory(""); setDifficulty(""); setTrendDirection(""); setCompetitionLevel("");
+                setSortBy("upvotes");
+                gridRef.current?.scrollIntoView({ behavior: "smooth" });
+              }} className="text-indigo-600 font-medium">Browse Ideas</button>
+              <button onClick={() => {
+                setSearch(""); setCategory(""); setDifficulty(""); setTrendDirection(""); setCompetitionLevel("");
+                setSortBy("demandScore");
+                gridRef.current?.scrollIntoView({ behavior: "smooth" });
+              }} className="text-gray-500 hover:text-gray-900 transition-colors">Top Ideas</button>
+              <button onClick={() => {
+                filterRef.current?.scrollIntoView({ behavior: "smooth" });
+              }} className="text-gray-500 hover:text-gray-900 transition-colors">Categories</button>
             </nav>
           </div>
         </div>
@@ -86,6 +98,7 @@ export default function Home() {
           </div>
         </div>
 
+        <div ref={filterRef} />
         <FilterBar
           search={search}
           setSearch={setSearch}
@@ -107,7 +120,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredIdeas.map((idea) => (
             <IdeaCard key={idea.id} idea={idea} />
           ))}

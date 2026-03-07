@@ -1,32 +1,43 @@
 import { Idea } from "./types";
 
+// Seasonality multipliers by month index (Sep=0 through Aug=11)
+// Each pattern represents real-world search behavior
+const SEASONALITY = {
+  none: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  // Q1 spike: tax/finance/jobs — peaks Jan-Mar
+  q1Spike: [0.85, 0.80, 0.90, 0.95, 1.40, 1.35, 1.25, 1.10, 0.90, 0.80, 0.75, 0.85],
+  // Spring/summer: real estate, local services — peaks Mar-Jun
+  springSummer: [0.85, 0.80, 0.85, 0.90, 0.95, 1.05, 1.25, 1.35, 1.30, 1.10, 0.90, 0.80],
+  // Q4 holiday: e-commerce, influencer, gifts — peaks Oct-Dec
+  q4Holiday: [0.90, 1.10, 1.25, 1.35, 0.95, 0.85, 0.80, 0.85, 0.90, 0.95, 1.00, 0.95],
+  // Job search: massive Jan spike, secondary Sep — dips summer
+  jobSearch: [0.90, 0.85, 0.75, 0.80, 1.80, 1.40, 1.10, 0.95, 0.80, 0.65, 0.60, 0.75],
+  // Tax season: very strong Jan-Apr
+  taxSeason: [0.80, 0.75, 0.80, 0.85, 1.50, 1.60, 1.45, 1.30, 0.85, 0.70, 0.65, 0.75],
+} as const;
+
+type SeasonalityPattern = keyof typeof SEASONALITY;
+
 function generateTrendData(
   base: number,
   growth: number,
-  volatility: number = 0.15
+  volatility: number = 0.15,
+  seasonality: SeasonalityPattern = "none"
 ): Idea["trendData"] {
   const months = [
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
+    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb",
+    "Mar", "Apr", "May", "Jun", "Jul", "Aug",
   ];
+  const seasonal = SEASONALITY[seasonality];
   return months.map((month, i) => {
-    const factor = 1 + growth * (i / 11);
+    const trendFactor = 1 + growth * (i / 11);
+    const seasonFactor = seasonal[i];
     const noise1 = 1 + (Math.sin(i * 2.1) * volatility);
     const noise2 = 1 + (Math.cos(i * 1.7) * volatility);
     return {
       month,
-      searchVolume: Math.round(base * factor * noise1),
-      redditMentions: Math.round((base / 8) * factor * noise2),
+      searchVolume: Math.round(base * trendFactor * seasonFactor * noise1),
+      redditMentions: Math.round((base / 8) * trendFactor * seasonFactor * noise2),
     };
   });
 }
@@ -62,7 +73,7 @@ export const ideas: Idea[] = [
       "Free tier for teams under 10 to drive viral adoption",
       "Partner with popular calendar tools for cross-promotion",
     ],
-    trendData: generateTrendData(12000, 0.65),
+    trendData: generateTrendData(14000, 0.30, 0.10),
     competitors: [
       { name: "Otter.ai", url: "otter.ai", funding: "$63M", weakness: "Enterprise-focused pricing, $100M+ ARR incumbent" },
       { name: "Fireflies.ai", url: "fireflies.ai", funding: "$19M", weakness: "Confusing credit/pricing system, billing complaints" },
@@ -72,7 +83,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.2B" },
       { label: "Search Volume", value: "18,100/mo" },
       { label: "Reddit Mentions", value: "2,400/mo" },
-      { label: "YoY Growth", value: "+65%" },
+      { label: "YoY Growth", value: "+30%" },
     ],
     viabilityScore: 3,
     keyRisks: [
@@ -114,7 +125,7 @@ export const ideas: Idea[] = [
       "Partner with Beehiiv and ConvertKit for co-marketing",
       "Host a monthly 'newsletter deals' roundup to build audience",
     ],
-    trendData: generateTrendData(5500, 0.45),
+    trendData: generateTrendData(2500, 0.50, 0.20),
     competitors: [
       { name: "LetterTrader", url: "duuce.com", funding: "Bootstrapped", weakness: "Changed hands 3 times, brand instability" },
       { name: "Empire Flippers", url: "empireflippers.com", funding: "$10M", weakness: "Broad marketplace, newsletters not core focus" },
@@ -124,7 +135,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$350M" },
       { label: "Search Volume", value: "8,200/mo" },
       { label: "Reddit Mentions", value: "890/mo" },
-      { label: "YoY Growth", value: "+45%" },
+      { label: "YoY Growth", value: "+50%" },
     ],
     viabilityScore: 4,
     keyRisks: [
@@ -166,7 +177,7 @@ export const ideas: Idea[] = [
       "Offer free gap analysis as lead magnet",
       "Undercut Vanta/Drata significantly on pricing for early-stage startups",
     ],
-    trendData: generateTrendData(9000, 0.72),
+    trendData: generateTrendData(7000, 0.45, 0.08),
     competitors: [
       { name: "Vanta", url: "vanta.com", funding: "$504M", weakness: "Expensive for startups under 10 employees, dominant incumbent" },
       { name: "Drata", url: "drata.com", funding: "$328M", weakness: "Complex setup, enterprise-focused" },
@@ -176,7 +187,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$1.2B" },
       { label: "Search Volume", value: "22,400/mo" },
       { label: "Reddit Mentions", value: "3,100/mo" },
-      { label: "YoY Growth", value: "+72%" },
+      { label: "YoY Growth", value: "+45%" },
     ],
     viabilityScore: 3,
     keyRisks: [
@@ -218,7 +229,7 @@ export const ideas: Idea[] = [
       "Campus ambassador programs at top 50 universities",
       "Referral bonuses for both sides of marketplace",
     ],
-    trendData: generateTrendData(7200, 0.38),
+    trendData: generateTrendData(8000, 0.15, 0.12, "springSummer"),
     competitors: [
       { name: "TaskRabbit", url: "taskrabbit.com", funding: "Acquired (IKEA)", weakness: "Owned by IKEA, focused on furniture/home tasks, not Gen Z-oriented" },
       { name: "Thumbtack", url: "thumbtack.com", funding: "$698M", weakness: "Lead-based model frustrates workers, expensive for providers" },
@@ -228,7 +239,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.5B" },
       { label: "Search Volume", value: "14,800/mo" },
       { label: "Reddit Mentions", value: "1,950/mo" },
-      { label: "YoY Growth", value: "+38%" },
+      { label: "YoY Growth", value: "+15%" },
     ],
     viabilityScore: 3,
     keyRisks: [
@@ -270,7 +281,7 @@ export const ideas: Idea[] = [
       "Free 30-day trial with bank connection",
       "Employer wellness benefit partnerships",
     ],
-    trendData: generateTrendData(8500, 0.55),
+    trendData: generateTrendData(6000, 0.40, 0.18, "q1Spike"),
     competitors: [
       { name: "Cleo", url: "meetcleo.com", funding: "$175M", weakness: "Targets Gen Z with snarky tone, cash advances as main revenue driver" },
       { name: "Albert", url: "albert.com", funding: "$173M", weakness: "Focuses on savings automation, less on coaching" },
@@ -280,7 +291,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$5.8B" },
       { label: "Search Volume", value: "16,300/mo" },
       { label: "Reddit Mentions", value: "2,800/mo" },
-      { label: "YoY Growth", value: "+55%" },
+      { label: "YoY Growth", value: "+40%" },
     ],
     viabilityScore: 4,
     keyRisks: [
@@ -322,7 +333,7 @@ export const ideas: Idea[] = [
       "Free tier with 'Built with [Product]' badge for viral growth",
       "SEO targeting 'developer portfolio' keywords",
     ],
-    trendData: generateTrendData(6000, 0.12),
+    trendData: generateTrendData(5000, 0.08, 0.15, "jobSearch"),
     competitors: [
       { name: "Peerlist", url: "peerlist.io", funding: "$2.1M", weakness: "Professional network first, portfolio second" },
       { name: "Bento.me", url: "bento.me", funding: "Bootstrapped", weakness: "Link-in-bio tool, not dev-specific" },
@@ -332,7 +343,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$150M" },
       { label: "Search Volume", value: "12,100/mo" },
       { label: "Reddit Mentions", value: "1,500/mo" },
-      { label: "YoY Growth", value: "+12%" },
+      { label: "YoY Growth", value: "+8%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -374,7 +385,7 @@ export const ideas: Idea[] = [
       "Agency partnership program with white-label option",
       "Free Chrome extension for quick repurposing",
     ],
-    trendData: generateTrendData(15000, 0.58),
+    trendData: generateTrendData(12000, 0.50, 0.12),
     competitors: [
       { name: "Repurpose.io", url: "repurpose.io", funding: "Bootstrapped", weakness: "Only video/audio, no text content" },
       { name: "Castmagic", url: "castmagic.io", funding: "$4.8M", weakness: "Podcast-focused only" },
@@ -384,7 +395,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$2.8B" },
       { label: "Search Volume", value: "24,500/mo" },
       { label: "Reddit Mentions", value: "3,200/mo" },
-      { label: "YoY Growth", value: "+58%" },
+      { label: "YoY Growth", value: "+50%" },
     ],
     viabilityScore: 4,
     keyRisks: [
@@ -426,7 +437,7 @@ export const ideas: Idea[] = [
       "Free tier for single product, paid for multi-product",
       "Integrate with popular no-code tools for broader reach",
     ],
-    trendData: generateTrendData(4500, 0.18),
+    trendData: generateTrendData(4000, 0.30, 0.10),
     competitors: [
       { name: "Baremetrics", url: "baremetrics.com", funding: "Acquired ($4M)", weakness: "Acquired and stagnant, limited multi-source support" },
       { name: "ChartMogul", url: "chartmogul.com", funding: "$4M", weakness: "Pricing overkill for small indie products" },
@@ -436,7 +447,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$120M" },
       { label: "Search Volume", value: "6,800/mo" },
       { label: "Reddit Mentions", value: "920/mo" },
-      { label: "YoY Growth", value: "+18%" },
+      { label: "YoY Growth", value: "+30%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -478,7 +489,7 @@ export const ideas: Idea[] = [
       "Free analysis for first 3 properties as lead magnet",
       "Real estate agent referral program",
     ],
-    trendData: generateTrendData(7800, 0.42),
+    trendData: generateTrendData(9000, 0.15, 0.20, "springSummer"),
     competitors: [
       { name: "DealCheck", url: "dealcheck.io", funding: "Bootstrapped", weakness: "Manual data entry, no AI — 350K+ users proves demand" },
       { name: "Mashvisor", url: "mashvisor.com", funding: "$1.1M", weakness: "Data quality issues, billing complaints, difficult cancellation" },
@@ -487,7 +498,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.9B" },
       { label: "Search Volume", value: "11,200/mo" },
       { label: "Reddit Mentions", value: "1,800/mo" },
-      { label: "YoY Growth", value: "+42%" },
+      { label: "YoY Growth", value: "+15%" },
     ],
     viabilityScore: 6,
     keyRisks: [
@@ -515,7 +526,7 @@ export const ideas: Idea[] = [
     timeToMvp: "8-10 weeks",
     competitionLevel: "High",
     demandScore: 76,
-    trendDirection: "Stable",
+    trendDirection: "Declining",
     summary:
       "Remote companies struggle with culture. However, culture is fundamentally a leadership problem, not a software problem. The graveyard of remote culture tools is large — many are bought enthusiastically and abandoned within 3 months.",
     problem:
@@ -529,7 +540,7 @@ export const ideas: Idea[] = [
       "Content marketing on remote culture best practices",
       "Slack integration for seamless adoption",
     ],
-    trendData: generateTrendData(6200, 0.15),
+    trendData: generateTrendData(5000, -0.10, 0.12),
     competitors: [
       { name: "Donut", url: "donut.com", funding: "$13M", weakness: "Limited to Slack, focused mainly on introductions and lightweight connections" },
       { name: "Culture Amp", url: "cultureamp.com", funding: "$258M", weakness: "Expensive enterprise platform, overkill for SMBs" },
@@ -539,7 +550,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$1.1B" },
       { label: "Search Volume", value: "9,400/mo" },
       { label: "Reddit Mentions", value: "1,300/mo" },
-      { label: "YoY Growth", value: "+15%" },
+      { label: "YoY Growth", value: "-10%" },
     ],
     viabilityScore: 3,
     keyRisks: [
@@ -581,7 +592,7 @@ export const ideas: Idea[] = [
       "Partnerships with accounting software (QuickBooks, FreshBooks)",
       "Referral program with small business accountants",
     ],
-    trendData: generateTrendData(11000, 0.48),
+    trendData: generateTrendData(9000, 0.45, 0.10),
     competitors: [
       { name: "LegalZoom", url: "legalzoom.com", funding: "Public (NASDAQ: LZ)", weakness: "Expensive, slow, adding AI features gradually" },
       { name: "Rocket Lawyer", url: "rocketlawyer.com", funding: "$288M", weakness: "Subscription model, template-based approach" },
@@ -591,7 +602,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3B" },
       { label: "Search Volume", value: "19,600/mo" },
       { label: "Reddit Mentions", value: "2,500/mo" },
-      { label: "YoY Growth", value: "+48%" },
+      { label: "YoY Growth", value: "+45%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -633,7 +644,7 @@ export const ideas: Idea[] = [
       "Browser extension that intercepts subscription signups",
       "Credit card company partnerships for statement analysis",
     ],
-    trendData: generateTrendData(9200, 0.52),
+    trendData: generateTrendData(14000, 0.25, 0.20, "q1Spike"),
     competitors: [
       { name: "Rocket Money", url: "rocketmoney.com", funding: "Acquired ($1.275B)", weakness: "Takes % of savings as fee, part of larger Rocket Companies ecosystem" },
       { name: "Trim", url: "asktrim.com", funding: "Acquired (OneMain)", weakness: "Service discontinued post-acquisition — effectively defunct" },
@@ -642,7 +653,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$2.1B" },
       { label: "Search Volume", value: "15,700/mo" },
       { label: "Reddit Mentions", value: "2,100/mo" },
-      { label: "YoY Growth", value: "+52%" },
+      { label: "YoY Growth", value: "+25%" },
     ],
     viabilityScore: 3,
     keyRisks: [
@@ -684,7 +695,7 @@ export const ideas: Idea[] = [
       "Free pilot program for first 50 customers",
       "Extreme niche focus (e.g., AI support for specific industry verticals)",
     ],
-    trendData: generateTrendData(18000, 0.82),
+    trendData: generateTrendData(20000, 0.55, 0.12),
     competitors: [
       { name: "Intercom Fin", url: "intercom.com", funding: "$241M", weakness: "Locked into Intercom ecosystem" },
       { name: "Ada", url: "ada.cx", funding: "$200M", weakness: "Enterprise-only pricing, $1.2B valuation" },
@@ -694,7 +705,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$10B" },
       { label: "Search Volume", value: "28,100/mo" },
       { label: "Reddit Mentions", value: "4,200/mo" },
-      { label: "YoY Growth", value: "+82%" },
+      { label: "YoY Growth", value: "+55%" },
     ],
     viabilityScore: 2,
     keyRisks: [
@@ -736,7 +747,7 @@ export const ideas: Idea[] = [
       "Kickstarter/Indiegogo launch for initial funding and buzz",
       "Pet store retail partnerships (Petco, Chewy)",
     ],
-    trendData: generateTrendData(5800, 0.32),
+    trendData: generateTrendData(7000, 0.18, 0.15, "q4Holiday"),
     competitors: [
       { name: "Fi", url: "tryfi.com", funding: "$40M", weakness: "GPS + activity/sleep tracking; health detection is new and basic" },
       { name: "PetPace", url: "petpace.com", funding: "$15M", weakness: "Clinical-grade but expensive, not consumer-friendly" },
@@ -746,7 +757,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.8B" },
       { label: "Search Volume", value: "8,900/mo" },
       { label: "Reddit Mentions", value: "1,100/mo" },
-      { label: "YoY Growth", value: "+32%" },
+      { label: "YoY Growth", value: "+18%" },
     ],
     viabilityScore: 2,
     keyRisks: [
@@ -788,7 +799,7 @@ export const ideas: Idea[] = [
       "LinkedIn content about resume optimization tips",
       "Free ATS score checker as viral lead magnet",
     ],
-    trendData: generateTrendData(14000, 0.41),
+    trendData: generateTrendData(22000, 0.25, 0.22, "jobSearch"),
     competitors: [
       { name: "Jobscan", url: "jobscan.co", funding: "Bootstrapped", weakness: "Has added AI rewriting, but clunky UX" },
       { name: "Teal", url: "tealhq.com", funding: "$20M", weakness: "Job tracker first, resume tool second" },
@@ -798,7 +809,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$2B" },
       { label: "Search Volume", value: "21,300/mo" },
       { label: "Reddit Mentions", value: "3,500/mo" },
-      { label: "YoY Growth", value: "+41%" },
+      { label: "YoY Growth", value: "+25%" },
     ],
     viabilityScore: 4,
     keyRisks: [
@@ -840,7 +851,7 @@ export const ideas: Idea[] = [
       "Shopify app store listing for D2C merchants",
       "Partner with influencer management agencies",
     ],
-    trendData: generateTrendData(8200, 0.39),
+    trendData: generateTrendData(8000, 0.25, 0.10, "q4Holiday"),
     competitors: [
       { name: "GRIN", url: "grin.co", funding: "$144M", weakness: "Enterprise pricing ($2,500+/mo), overkill for SMB brands" },
       { name: "CreatorIQ", url: "creatoriq.com", funding: "$81M", weakness: "Enterprise-only, complex onboarding" },
@@ -850,7 +861,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$5.1B" },
       { label: "Search Volume", value: "13,400/mo" },
       { label: "Reddit Mentions", value: "1,700/mo" },
-      { label: "YoY Growth", value: "+39%" },
+      { label: "YoY Growth", value: "+25%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -892,7 +903,7 @@ export const ideas: Idea[] = [
       "Partner with 3PL providers for referrals",
       "E-commerce community sponsorships and webinars",
     ],
-    trendData: generateTrendData(7500, 0.44),
+    trendData: generateTrendData(6000, 0.35, 0.10, "q4Holiday"),
     competitors: [
       { name: "Inventory Planner", url: "inventory-planner.com", funding: "Acquired (Sage)", weakness: "Rules-based forecasting, not modern AI/ML" },
       { name: "Flieber", url: "flieber.com", funding: "$20M", weakness: "Multichannel but less Shopify-native than Prediko" },
@@ -902,7 +913,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$9.6B" },
       { label: "Search Volume", value: "10,800/mo" },
       { label: "Reddit Mentions", value: "1,400/mo" },
-      { label: "YoY Growth", value: "+44%" },
+      { label: "YoY Growth", value: "+35%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -944,7 +955,7 @@ export const ideas: Idea[] = [
       "Integration with Linear, Jira, and Notion",
       "Open-source core with paid cloud offering",
     ],
-    trendData: generateTrendData(3800, 0.15),
+    trendData: generateTrendData(3500, 0.10, 0.08),
     competitors: [
       { name: "Canny", url: "canny.io", funding: "Bootstrapped", weakness: "Pricing scales steeply — $79-$829/mo depending on usage" },
       { name: "UserVoice", url: "uservoice.com", funding: "$9.3M", weakness: "Dated UI, enterprise-focused, starts at $16K/year" },
@@ -954,7 +965,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.5B" },
       { label: "Search Volume", value: "5,600/mo" },
       { label: "Reddit Mentions", value: "720/mo" },
-      { label: "YoY Growth", value: "+15%" },
+      { label: "YoY Growth", value: "+10%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -996,7 +1007,7 @@ export const ideas: Idea[] = [
       "Free tax deduction finder as viral lead magnet",
       "Content marketing during Q1 tax season",
     ],
-    trendData: generateTrendData(10000, 0.50),
+    trendData: generateTrendData(8000, 0.40, 0.22, "taxSeason"),
     competitors: [
       { name: "QuickBooks Solopreneur", url: "quickbooks.com", funding: "Public (Intuit)", weakness: "Replaced discontinued QB Self-Employed, still business-oriented UX" },
       { name: "FreshBooks", url: "freshbooks.com", funding: "$154M", weakness: "Invoice-focused, weak on tax preparation and deductions" },
@@ -1006,7 +1017,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$4.3B" },
       { label: "Search Volume", value: "17,200/mo" },
       { label: "Reddit Mentions", value: "2,600/mo" },
-      { label: "YoY Growth", value: "+50%" },
+      { label: "YoY Growth", value: "+40%" },
     ],
     viabilityScore: 5,
     keyRisks: [
@@ -1034,7 +1045,7 @@ export const ideas: Idea[] = [
     timeToMvp: "6-8 weeks",
     competitionLevel: "High",
     demandScore: 72,
-    trendDirection: "Stable",
+    trendDirection: "Declining",
     summary:
       "Cold emails get 1-2% reply rates. Personalized video messages get 8-12%. However, Vidyard IS a sales-focused video platform (not broad as some claim), and Loom was acquired by Atlassian for $975M. The window for new entrants is narrow.",
     problem:
@@ -1048,7 +1059,7 @@ export const ideas: Idea[] = [
       "Salesforce AppExchange and HubSpot marketplace listings",
       "Sales community sponsorships (Revenue Collective, Pavilion)",
     ],
-    trendData: generateTrendData(5500, 0.22),
+    trendData: generateTrendData(6000, -0.05, 0.15),
     competitors: [
       { name: "Vidyard", url: "vidyard.com", funding: "$91M", weakness: "Buggy Chrome extension, limited editing, expensive for small teams" },
       { name: "Loom", url: "loom.com", funding: "Acquired (Atlassian, $975M)", weakness: "General purpose post-acquisition, Atlassian ecosystem focus" },
@@ -1058,7 +1069,7 @@ export const ideas: Idea[] = [
       { label: "TAM", value: "$3.7B" },
       { label: "Search Volume", value: "7,300/mo" },
       { label: "Reddit Mentions", value: "950/mo" },
-      { label: "YoY Growth", value: "+22%" },
+      { label: "YoY Growth", value: "-5%" },
     ],
     viabilityScore: 3,
     keyRisks: [

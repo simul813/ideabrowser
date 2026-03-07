@@ -14,6 +14,8 @@ interface FilterBarProps {
   setSortBy: (s: string) => void;
   trendDirection: string;
   setTrendDirection: (t: string) => void;
+  competitionLevel: string;
+  setCompetitionLevel: (c: string) => void;
 }
 
 export function FilterBar({
@@ -22,9 +24,10 @@ export function FilterBar({
   difficulty, setDifficulty,
   sortBy, setSortBy,
   trendDirection, setTrendDirection,
+  competitionLevel, setCompetitionLevel,
 }: FilterBarProps) {
   const categories = getCategories();
-  const hasFilters = category || difficulty || trendDirection;
+  const hasFilters = category || difficulty || trendDirection || competitionLevel;
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6 space-y-4">
@@ -83,9 +86,19 @@ export function FilterBar({
           <option value="Stable">Stable</option>
           <option value="Declining">Declining</option>
         </select>
+        <select
+          value={competitionLevel}
+          onChange={(e) => setCompetitionLevel(e.target.value)}
+          className="px-3 py-1.5 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+        >
+          <option value="">Any Competition</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
         {hasFilters && (
           <button
-            onClick={() => { setCategory(""); setDifficulty(""); setTrendDirection(""); }}
+            onClick={() => { setCategory(""); setDifficulty(""); setTrendDirection(""); setCompetitionLevel(""); }}
             className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors"
           >
             <X className="w-3 h-3" />

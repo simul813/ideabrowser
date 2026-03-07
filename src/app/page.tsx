@@ -12,6 +12,7 @@ export default function Home() {
   const [difficulty, setDifficulty] = useState("");
   const [sortBy, setSortBy] = useState("upvotes");
   const [trendDirection, setTrendDirection] = useState("");
+  const [competitionLevel, setCompetitionLevel] = useState("");
 
   const filteredIdeas = useMemo(() => {
     let filtered = ideas.filter((idea) => {
@@ -23,7 +24,8 @@ export default function Home() {
       const matchesCategory = !category || idea.category === category;
       const matchesDifficulty = !difficulty || idea.difficulty === difficulty;
       const matchesTrend = !trendDirection || idea.trendDirection === trendDirection;
-      return matchesSearch && matchesCategory && matchesDifficulty && matchesTrend;
+      const matchesCompetition = !competitionLevel || idea.competitionLevel === competitionLevel;
+      return matchesSearch && matchesCategory && matchesDifficulty && matchesTrend && matchesCompetition;
     });
 
     filtered.sort((a, b) => {
@@ -37,7 +39,7 @@ export default function Home() {
     });
 
     return filtered;
-  }, [search, category, difficulty, sortBy, trendDirection]);
+  }, [search, category, difficulty, sortBy, trendDirection, competitionLevel]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -95,6 +97,8 @@ export default function Home() {
           setSortBy={setSortBy}
           trendDirection={trendDirection}
           setTrendDirection={setTrendDirection}
+          competitionLevel={competitionLevel}
+          setCompetitionLevel={setCompetitionLevel}
         />
 
         <div className="flex items-center justify-between mb-4">
@@ -118,6 +122,7 @@ export default function Home() {
                 setCategory("");
                 setDifficulty("");
                 setTrendDirection("");
+                setCompetitionLevel("");
               }}
               className="mt-3 text-indigo-600 hover:text-indigo-700 text-sm font-medium"
             >

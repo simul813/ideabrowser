@@ -15,7 +15,7 @@ import {
   Target,
   BarChart3,
   Shield,
-  Lightbulb,
+  Rocket,
   ExternalLink,
   CheckCircle2,
 } from "lucide-react";
@@ -120,9 +120,9 @@ export default function IdeaDetailPage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <Lightbulb className="w-5 h-5 text-white" />
+                <Rocket className="w-5 h-5 text-white" />
               </div>
-              <Link href="/" className="text-xl font-bold text-gray-900">IdeaBrowser</Link>
+              <Link href="/" className="text-xl font-bold text-gray-900">IdeaEngine</Link>
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function IdeaDetailPage() {
               <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-                    <Lightbulb className="w-4 h-4 text-green-500" />
+                    <Rocket className="w-4 h-4 text-green-500" />
                   </div>
                   <h2 className="text-lg font-semibold text-gray-900">The Solution</h2>
                 </div>
@@ -338,6 +338,26 @@ export default function IdeaDetailPage() {
                 ))}
               </div>
             </div>
+
+            {/* Key Risks */}
+            <div className="bg-white border border-red-200 rounded-xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-red-500" />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900">Key Risks & Challenges</h2>
+              </div>
+              <div className="space-y-3">
+                {idea.keyRisks.map((risk, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <span className="text-red-600 text-xs font-bold">{i + 1}</span>
+                    </div>
+                    <p className="text-sm text-gray-600">{risk}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Right Column - 1/3 */}
@@ -364,6 +384,33 @@ export default function IdeaDetailPage() {
                     />
                   </RadarChart>
                 </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Viability Score */}
+            <div className={`border rounded-xl p-6 ${
+              idea.viabilityScore >= 5 ? "bg-green-50 border-green-200" :
+              idea.viabilityScore >= 3 ? "bg-yellow-50 border-yellow-200" :
+              "bg-red-50 border-red-200"
+            }`}>
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">Critic Viability Score</h2>
+              <div className="flex items-center gap-3">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${
+                  idea.viabilityScore >= 5 ? "bg-green-500" :
+                  idea.viabilityScore >= 3 ? "bg-yellow-500" :
+                  "bg-red-500"
+                }`}>
+                  <span className="text-white font-bold text-xl">{idea.viabilityScore}</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-900">
+                    {idea.viabilityScore >= 7 ? "Strong Opportunity" :
+                     idea.viabilityScore >= 5 ? "Viable with Execution" :
+                     idea.viabilityScore >= 3 ? "Challenging Market" :
+                     "High Risk"}
+                  </p>
+                  <p className="text-xs text-gray-500">out of 10</p>
+                </div>
               </div>
             </div>
 

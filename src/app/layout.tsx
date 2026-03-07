@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "IdeaBrowser - Find Your Next Startup Idea",
+  title: "IdeaEngine - Find Your Next Startup Idea",
   description: "Data-backed startup ideas with market analysis, trend data, and execution strategies. Each idea represents 50+ hours of research.",
 };
 

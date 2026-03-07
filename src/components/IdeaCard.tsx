@@ -60,7 +60,7 @@ export function IdeaCard({ idea }: { idea: Idea }) {
           <MiniTrendChart data={idea.trendData} />
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+        <div className="grid grid-cols-3 gap-3 mb-4 text-sm">
           <div>
             <span className="text-gray-400 text-xs">Market Size</span>
             <p className="font-semibold text-gray-900">{idea.marketSize}</p>
@@ -68,6 +68,14 @@ export function IdeaCard({ idea }: { idea: Idea }) {
           <div>
             <span className="text-gray-400 text-xs">Revenue Est.</span>
             <p className="font-semibold text-gray-900">{idea.monthlyRevenueEstimate}</p>
+          </div>
+          <div>
+            <span className="text-gray-400 text-xs">Viability</span>
+            <p className={`font-bold ${
+              idea.viabilityScore >= 5 ? "text-green-600" :
+              idea.viabilityScore >= 3 ? "text-yellow-600" :
+              "text-red-600"
+            }`}>{idea.viabilityScore}/10</p>
           </div>
         </div>
 

@@ -36,6 +36,8 @@ export interface Idea {
   trendData: TrendDataPoint[];
   competitors: Competitor[];
   keyMetrics: { label: string; value: string }[];
+  viabilityScore: number; // 1-10, critic assessment
+  keyRisks: string[];
   upvotes: number;
   dateAdded: string;
 }

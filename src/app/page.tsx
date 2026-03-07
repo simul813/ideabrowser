@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { ideas } from "@/lib/ideas";
 import { IdeaCard } from "@/components/IdeaCard";
 import { FilterBar } from "@/components/FilterBar";
-import { Lightbulb, TrendingUp, Database, Zap } from "lucide-react";
+import { Rocket, TrendingUp, Database, Zap } from "lucide-react";
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -46,9 +46,9 @@ export default function Home() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <Lightbulb className="w-5 h-5 text-white" />
+                <Rocket className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">IdeaBrowser</span>
+              <span className="text-xl font-bold text-gray-900">IdeaEngine</span>
             </div>
             <nav className="hidden sm:flex items-center gap-6 text-sm">
               <a href="#" className="text-indigo-600 font-medium">Browse Ideas</a>
@@ -132,9 +132,9 @@ export default function Home() {
           <div className="flex items-center justify-between text-sm text-gray-500">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-indigo-600 rounded-md flex items-center justify-center">
-                <Lightbulb className="w-3.5 h-3.5 text-white" />
+                <Rocket className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="font-semibold text-gray-700">IdeaBrowser</span>
+              <span className="font-semibold text-gray-700">IdeaEngine</span>
             </div>
             <p>Data-backed startup ideas, updated daily.</p>
           </div>

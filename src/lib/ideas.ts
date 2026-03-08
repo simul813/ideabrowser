@@ -11342,6 +11342,59 @@ export const ideas: Idea[] = [
     upvotes: 1716,
     dateAdded: "2026-03-07",
   },
+  {
+    id: "221",
+    title: "AI-Powered Synthetic Data Generation Platform",
+    slug: "ai-synthetic-data-generation-platform",
+    tagline: "Privacy-safe synthetic datasets for AI/ML training, testing, and analytics without exposing real customer data",
+    category: "AI/Data Infrastructure",
+    tags: ["AI", "Data", "Privacy", "B2B SaaS", "Developer Tools"],
+    difficulty: "Hard",
+    marketSize: "$580M",
+    marketSizeValue: 580,
+    revenueModel: "B2B SaaS Subscription (usage-based tiers by rows generated + seats)",
+    monthlyRevenueEstimate: "$40K-$250K",
+    customerAcquisitionCost: "$320",
+    timeToMvp: "12-16 weeks",
+    competitionLevel: "Medium",
+    demandScore: 82,
+    trendDirection: "Rising",
+    summary:
+      "The synthetic data generation market hit $580M in 2026, growing at 35% CAGR driven by GDPR/CCPA compliance needs and exploding AI training data demand. Gretel was acquired by Nvidia for its synthetic data tech. The market is splitting: tabular synthetic data for privacy compliance (banks, healthcare) and generative synthetic data for AI/ML training. Startups can win in vertical niches (e.g., healthcare-specific synthetic EHRs, fintech transaction data) where domain expertise matters more than platform scale.",
+    problem:
+      "Companies need massive datasets to train AI models, test software, and run analytics, but real data is locked behind privacy regulations (GDPR, HIPAA, CCPA). Data anonymization is brittle and re-identifiable. Teams wait weeks for compliant test data, slowing development cycles by 30-40%.",
+    solution:
+      "A platform that generates statistically faithful synthetic datasets from real data schemas. Uses generative models to produce privacy-safe tabular, time-series, and text data that preserves correlations and distributions. Features include privacy guarantees with differential privacy scoring, schema-aware generation, quality metrics dashboards, and one-click integrations with data warehouses and ML pipelines.",
+    targetAudience: "Data engineering teams at mid-market companies (200-5000 employees) in regulated industries: financial services, healthcare, insurance, and government",
+    goToMarket: [
+      "Developer-focused content marketing on synthetic data best practices",
+      "Open-source SDK with freemium cloud tier to drive adoption",
+      "Partnerships with cloud data platforms (Snowflake, Databricks)",
+      "Compliance-focused sales to CISOs and DPOs at regulated enterprises",
+    ],
+    trendData: generateTrendData(3600, 0.35, 0.12),
+    competitors: [
+      { name: "Gretel (Nvidia)", url: "gretel.ai", funding: "$67M (acquired by Nvidia)", weakness: "Now part of Nvidia; enterprise-only focus, less accessible to mid-market" },
+      { name: "Tonic.ai", url: "tonic.ai", funding: "$47M", weakness: "Primarily test data masking; synthetic generation is secondary capability" },
+      { name: "MOSTLY AI", url: "mostly.ai", funding: "$31M", weakness: "European-focused; limited US go-to-market presence" },
+      { name: "Hazy (SAS)", url: "hazy.com", funding: "$11.3M (acquired by SAS)", weakness: "Absorbed into SAS enterprise suite; losing startup agility" },
+    ],
+    keyMetrics: [
+      { label: "TAM", value: "$580M" },
+      { label: "Search Volume", value: "3,600/mo" },
+      { label: "Reddit Mentions", value: "450/mo" },
+      { label: "YoY Growth", value: "+35%" },
+    ],
+    viabilityScore: 7,
+    keyRisks: [
+      "Nvidia (Gretel acquisition) and major cloud providers building native synthetic data features",
+      "Quality validation is hard — synthetic data that doesn't preserve real-world distributions is useless",
+      "Long enterprise sales cycles in regulated industries (6-12 months)",
+      "Open-source alternatives (SDV, Faker) adequate for simple use cases",
+    ],
+    upvotes: 1653,
+    dateAdded: "2026-03-08",
+  },
 ];
 
 export function getIdeaBySlug(slug: string): Idea | undefined {

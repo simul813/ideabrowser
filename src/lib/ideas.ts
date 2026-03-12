@@ -11500,6 +11500,58 @@ export const ideas: Idea[] = [
     upvotes: 1583,
     dateAdded: "2026-03-10",
   },
+  {
+    id: "224",
+    title: "AI-Powered Aquaculture Monitoring & Feed Optimization Platform",
+    slug: "ai-aquaculture-monitoring-feed-optimization",
+    tagline: "Computer vision and IoT sensors that monitor fish health, optimize feeding, and reduce waste in commercial fish farms",
+    category: "AgTech/AI",
+    tags: ["AI", "AgTech", "IoT", "Sustainability", "B2B SaaS"],
+    difficulty: "Hard",
+    marketSize: "$480M",
+    marketSizeValue: 480,
+    revenueModel: "B2B SaaS Subscription (per-pen monitoring license + analytics platform fees)",
+    monthlyRevenueEstimate: "$30K-$180K",
+    customerAcquisitionCost: "$2,500",
+    timeToMvp: "14-18 weeks",
+    competitionLevel: "Medium",
+    demandScore: 74,
+    trendDirection: "Rising",
+    summary:
+      "The precision aquaculture software and analytics market is valued at approximately $480M in 2025 within the broader $848M precision aquaculture market, growing at 11% CAGR as global fish farming scales to meet 60%+ of seafood demand. Feed accounts for 50-70% of aquaculture operating costs, and overfeeding causes both financial waste and environmental pollution. AI-driven underwater camera systems and IoT sensors can reduce feed waste by 15-25%, detect disease early, and provide real-time biomass estimates — saving large farms $200K-$500K annually. The space has a well-funded incumbent in eFishery ($294M raised) but opportunities exist in temperate-water species (salmon, trout, seabass) and SaaS-only models that avoid hardware lock-in.",
+    problem:
+      "Commercial fish farms lose 15-30% of feed to overfeeding, costing the global industry $8B+ annually while polluting surrounding waters with excess nutrients. Disease outbreaks go undetected until visible symptoms appear, by which time mortality can reach 20-40% of stock. Manual biomass estimation is inaccurate (±20%), leading to poor harvest timing and pricing. Farm managers rely on experience and intuition rather than data, making it hard to scale operations or train new staff.",
+    solution:
+      "An integrated platform combining underwater computer vision cameras with water quality IoT sensors (dissolved oxygen, temperature, pH, ammonia) that uses ML models to: (1) estimate fish biomass and growth rates in real-time with ±3% accuracy, (2) optimize feeding schedules and portions based on appetite detection algorithms, (3) detect early signs of sea lice, gill disease, and behavioral stress patterns, and (4) provide a cloud dashboard with predictive analytics for harvest planning, feed purchasing, and regulatory reporting. Models are trained on species-specific datasets covering salmon, trout, shrimp, and seabass.",
+    targetAudience: "Commercial aquaculture operators with 5+ pens/ponds, salmon and shrimp farming companies, aquaculture feed suppliers, and seafood industry investors seeking ESG metrics",
+    goToMarket: [
+      "Direct sales to large salmon farming companies in Norway, Chile, and Scotland",
+      "Partner with aquaculture feed companies (Skretting, Cargill Aqua) for bundled offerings",
+      "Free water quality monitoring tier to build sensor network and upsell AI analytics",
+      "Attend Aqua Nor and World Aquaculture conferences for industry visibility",
+    ],
+    trendData: generateTrendData(2800, 0.22, 0.14, "springSummer"),
+    competitors: [
+      { name: "eFishery", url: "efishery.com", funding: "$294M", weakness: "Focused on tropical shrimp/tilapia in SE Asia; limited presence in temperate salmon markets" },
+      { name: "Aquabyte", url: "aquabyte.ai", funding: "$48M", weakness: "Acquired by Vitruvian Partners in 2025; integration uncertainty and salmon-only focus" },
+      { name: "Innovasea", url: "innovasea.com", funding: "$15M", weakness: "Hardware-heavy model with expensive cage systems; software platform is secondary to equipment sales" },
+    ],
+    keyMetrics: [
+      { label: "TAM", value: "$480M" },
+      { label: "Search Volume", value: "2,800/mo" },
+      { label: "Reddit Mentions", value: "350/mo" },
+      { label: "YoY Growth", value: "+22%" },
+    ],
+    viabilityScore: 6,
+    keyRisks: [
+      "eFishery has $294M in funding and dominant market share in SE Asian shrimp farming",
+      "Aquaculture farms are in remote coastal/offshore locations, making hardware deployment and maintenance challenging",
+      "Species-specific ML models require extensive training data that is expensive to collect underwater",
+      "Regulatory fragmentation across countries creates complex compliance requirements for data collection in marine environments",
+    ],
+    upvotes: 1547,
+    dateAdded: "2026-03-12",
+  },
 ];
 
 export function getIdeaBySlug(slug: string): Idea | undefined {

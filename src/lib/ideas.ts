@@ -11552,6 +11552,58 @@ export const ideas: Idea[] = [
     upvotes: 1547,
     dateAdded: "2026-03-12",
   },
+  {
+    id: "225",
+    title: "AI-Powered Structural Health Monitoring for Bridges & Infrastructure",
+    slug: "ai-structural-health-monitoring-bridges-infrastructure",
+    tagline: "IoT sensors and AI analytics that detect structural degradation in bridges, tunnels, and dams before failures occur",
+    category: "Infrastructure/AI",
+    tags: ["AI", "IoT", "Infrastructure", "B2B SaaS", "Civil Engineering"],
+    difficulty: "Hard",
+    marketSize: "$2.8B",
+    marketSizeValue: 2800,
+    revenueModel: "B2B SaaS Subscription (per-structure monitoring license + predictive analytics platform fees)",
+    monthlyRevenueEstimate: "$40K-$200K",
+    customerAcquisitionCost: "$3,000",
+    timeToMvp: "14-18 weeks",
+    competitionLevel: "Medium",
+    demandScore: 76,
+    trendDirection: "Rising",
+    summary:
+      "The structural health monitoring (SHM) software and analytics market is valued at approximately $2.8B in 2025, growing at 14% CAGR as aging infrastructure worldwide demands continuous monitoring. The US alone has 67,000+ structurally deficient bridges, and the 2021 Infrastructure Investment and Jobs Act allocated $40B for bridge repair. AI-driven SHM platforms using vibration sensors, strain gauges, and computer vision can detect micro-cracks, corrosion, and load anomalies months before visual inspection would catch them — reducing inspection costs by 40-60% and preventing catastrophic failures. Worldsensing ($46M raised) leads in IoT infrastructure monitoring, but opportunities exist in AI-first predictive analytics platforms that integrate with existing sensor networks rather than requiring proprietary hardware.",
+    problem:
+      "Visual bridge inspections occur only every 2 years per federal mandate, missing progressive deterioration between cycles. Manual inspections cost $5,000-$50,000 per bridge and are subjective — two inspectors can rate the same bridge differently. The US spends $9B annually on bridge maintenance, yet 42% of bridges are 50+ years old and approaching design lifespan. Catastrophic failures like the 2024 Francis Scott Key Bridge collapse highlight the consequences of inadequate monitoring, and state DOTs lack the engineering staff to increase inspection frequency.",
+    solution:
+      "A cloud-based AI analytics platform that ingests data from low-cost IoT sensor arrays (accelerometers, strain gauges, tilt sensors, corrosion sensors) installed on bridges and structures to: (1) build digital twin models of structural behavior under varying load and weather conditions, (2) detect anomalous vibration patterns and progressive degradation using ML models trained on failure datasets, (3) predict remaining useful life and prioritize maintenance budgets across bridge portfolios, and (4) generate automated compliance reports for FHWA National Bridge Inspection Standards. The platform integrates with existing sensor hardware from multiple vendors, avoiding lock-in.",
+    targetAudience: "State and local Departments of Transportation, civil engineering firms, bridge owners (toll authorities, railroads), and infrastructure asset managers overseeing portfolios of 100+ structures",
+    goToMarket: [
+      "Partner with state DOTs through SBIR/STTR federal innovation grants for pilot deployments",
+      "Integrate with existing sensor vendors (Worldsensing, Resensys, Senceive) as a vendor-neutral analytics layer",
+      "Present at Transportation Research Board Annual Meeting and World Conference on Structural Control",
+      "Free portfolio risk dashboard for DOTs to visualize bridge condition data from National Bridge Inventory",
+    ],
+    trendData: generateTrendData(3400, 0.28, 0.12, "none"),
+    competitors: [
+      { name: "Worldsensing", url: "worldsensing.com", funding: "$46M", weakness: "Hardware-centric IoT focus; analytics platform is secondary to sensor sales and lacks advanced AI predictions" },
+      { name: "Ackcio", url: "ackcio.com", funding: "$5.6M", weakness: "Singapore-based with limited US DOT relationships; focused on construction monitoring over long-term bridge health" },
+      { name: "Senceive", url: "senceive.com", funding: "$1.6M", weakness: "Acquired by Previan in 2021; rail-focused with limited bridge portfolio analytics capabilities" },
+    ],
+    keyMetrics: [
+      { label: "TAM", value: "$2.8B" },
+      { label: "Search Volume", value: "3,400/mo" },
+      { label: "Reddit Mentions", value: "425/mo" },
+      { label: "YoY Growth", value: "+28%" },
+    ],
+    viabilityScore: 7,
+    keyRisks: [
+      "Government procurement cycles are 12-18 months, requiring significant runway before first revenue",
+      "Bentley Systems acquired Sensemetrics in 2021 and could bundle SHM analytics into its dominant infrastructure software suite",
+      "Sensor data quality varies widely across vendors and installation conditions, making ML model generalization difficult",
+      "Liability concerns around AI-generated safety assessments may slow adoption by risk-averse government agencies",
+    ],
+    upvotes: 1489,
+    dateAdded: "2026-03-13",
+  },
 ];
 
 export function getIdeaBySlug(slug: string): Idea | undefined {

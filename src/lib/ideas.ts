@@ -11604,6 +11604,58 @@ export const ideas: Idea[] = [
     upvotes: 1489,
     dateAdded: "2026-03-13",
   },
+  {
+    id: "226",
+    title: "AI-Powered Fleet Electrification Planning & ROI Analytics Platform",
+    slug: "ai-fleet-electrification-planning-roi-analytics",
+    tagline: "Data-driven software that models total cost of ownership, charging infrastructure needs, and optimal EV transition timelines for commercial fleets",
+    category: "CleanTech/AI",
+    tags: ["AI", "B2B SaaS", "CleanTech", "Fleet Management", "Electric Vehicles"],
+    difficulty: "Hard",
+    marketSize: "$1.8B",
+    marketSizeValue: 1800,
+    revenueModel: "B2B SaaS Subscription (per-vehicle analytics license + enterprise consulting add-ons)",
+    monthlyRevenueEstimate: "$30K-$150K",
+    customerAcquisitionCost: "$2,500",
+    timeToMvp: "12-16 weeks",
+    competitionLevel: "Medium",
+    demandScore: 74,
+    trendDirection: "Rising",
+    summary:
+      "The ROI analytics for fleet electrification market reached $1.8B in 2024 and is growing at 18.6% CAGR, projected to hit $9.3B by 2033. With 87% of fleet professionals planning electrification within five years and the broader EV fleet management market surging to $9.1B in 2025 (22.7% CAGR to $32.3B by 2030), there is massive demand for planning software that answers the fundamental question: which vehicles to replace first, what charging infrastructure to build, and when the ROI breaks even. Sawatch Labs (acquired by WEX in 2024) pioneered this space, but the acquisition creates an opening for independent, vendor-neutral planning platforms that integrate telematics data with utility rate modeling, federal incentive calculations, and site-level electrical capacity analysis.",
+    problem:
+      "Fleet managers face a $50K-$300K per-vehicle electrification decision with dozens of variables: vehicle duty cycles, route patterns, dwell times, utility rate structures, demand charges, NEVI/IRA incentive eligibility, electrical panel capacity, and grid upgrade costs. Most rely on spreadsheets or vendor-biased TCO calculators that overstate savings. A wrong sequencing decision — electrifying long-haul routes before last-mile delivery, or installing chargers at a depot with insufficient electrical capacity — can waste millions and delay fleet-wide transition by years.",
+    solution:
+      "An AI-powered SaaS platform that ingests telematics data from existing fleet management systems to: (1) score every vehicle in the fleet for EV readiness based on actual duty cycles, route distances, and dwell-time charging windows, (2) model total cost of ownership comparing ICE vs. BEV vs. PHEV over 5-10 year horizons with real utility rates and degradation curves, (3) optimize charging infrastructure placement and sizing using electrical capacity data and demand charge forecasting, (4) generate phased transition roadmaps that maximize federal/state incentive capture and minimize operational disruption, and (5) continuously update recommendations as new EV models, battery prices, and rate structures change.",
+    targetAudience: "Mid-to-large fleet operators (50-10,000+ vehicles) including delivery companies, municipalities, school districts, utilities, and enterprise corporate fleets evaluating or executing EV transition plans",
+    goToMarket: [
+      "Partner with telematics providers (Geotab, Samsara, Motive) for data integration and co-marketing to their fleet customer base",
+      "Target municipal and school district fleets leveraging EPA Clean School Bus Program and FHWA NEVI formula funding",
+      "Free fleet electrification readiness assessment tool to capture leads and demonstrate value before paid engagement",
+      "Present at ACT Expo, CALSTART, and NACFE conferences to build credibility with fleet sustainability directors",
+    ],
+    trendData: generateTrendData(2800, 0.32, 0.12, "none"),
+    competitors: [
+      { name: "BetterFleet", url: "betterfleet.com", funding: "$15M", weakness: "Focused on charging management post-deployment; limited pre-transition planning and TCO modeling capabilities" },
+      { name: "Volteum", url: "volteum.io", funding: "$1.4M", weakness: "Budapest-based with limited US utility rate data and federal incentive modeling; small team with narrow market reach" },
+      { name: "Sawatch Labs (WEX)", url: "sawatchlabs.com", funding: "$750K (acquired by WEX 2024)", weakness: "Acquisition by WEX payment platform may deprioritize standalone planning product; losing independent positioning" },
+    ],
+    keyMetrics: [
+      { label: "TAM", value: "$1.8B" },
+      { label: "Search Volume", value: "2,800/mo" },
+      { label: "Reddit Mentions", value: "350/mo" },
+      { label: "YoY Growth", value: "+32%" },
+    ],
+    viabilityScore: 7,
+    keyRisks: [
+      "Geotab, Samsara, and other telematics incumbents could build native fleet electrification planning modules, commoditizing the analytics layer",
+      "Federal EV incentive uncertainty under changing administrations could slow fleet electrification timelines and reduce urgency for planning tools",
+      "Utility rate structures and demand charge models vary enormously across 3,000+ US utilities, requiring expensive data maintenance",
+      "Long enterprise sales cycles (6-12 months) with fleet operators who may delay electrification decisions during economic downturns",
+    ],
+    upvotes: 1512,
+    dateAdded: "2026-03-14",
+  },
 ];
 
 export function getIdeaBySlug(slug: string): Idea | undefined {
